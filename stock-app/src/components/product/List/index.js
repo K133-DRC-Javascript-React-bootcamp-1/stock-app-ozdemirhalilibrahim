@@ -33,7 +33,8 @@ function List({products}) {
             {filtered.map((product, i)=>(
                 <li key={i}> 
                 <span>{product.productName} ({product.stock}) </span> 
-                <form className='btn'> <input  value={stock}  onChange={(e)=>setNewStock(e.target.value)} style={{width:50}} /> <button onClick={changeStock(i,true)}  >Ekle</button> <button onClick={changeStock(i,false)}>Cikar</button> </form>
+                <div className='btn'> <input  value={stock}  onChange={(e)=>setNewStock(e.target.value)} style={{width:50}} /> 
+                <button onClick={changeStock(i,true)}  >Ekle</button> <button onClick={changeStock(i,false)}>Cikar</button> </div>
                 
                 </li>
                 
