@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react'
 
-const initialFormValue ={productName: "", stock:''}
+
 
 function Form({ addProduct, products }) {
+    const initialFormValue ={id:products.length, productName: "", stock:''}
     const [form, setForm] = useState(initialFormValue)
     const onChangeInput = (e)=>{
         setForm({...form, [e.target.name]: e.target.value})
@@ -38,7 +39,7 @@ function Form({ addProduct, products }) {
             />
         </div>
         <div className='btn'>
-            <button  onClick={onSubmit}>Add</button>
+            <button  >Add</button>
         </div>
         
     </form>
