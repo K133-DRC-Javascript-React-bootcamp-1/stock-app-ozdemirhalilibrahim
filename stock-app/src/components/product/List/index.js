@@ -1,50 +1,99 @@
-import {useState,useEffect}from 'react'
+import { useState, useEffect } from "react";
 
-function List({products}) {
-  const [filterText, setFilterText] = useState("")
-  const [stock, setNewStock]= useState(1)
-  
-  useEffect(()=>
-  
-  console.log('degisiklik oldu'),[products.stock])
- 
- const changeStock=(index, type)=> {
-     if(type){
-        products[index].stock=(parseInt(products[index].stock)+parseInt(stock))
-     }
-     else{
-        products[index].stock=parseInt(products[index].stock)-parseInt(stock)
-     }
-     
- }
+function List({ products, setProduct }) {
+  const [filterText, setFilterText] = useState("");
+  const [newStock, setNewStock] = useState({ id: 0, stock: 1 });
 
+  const changeStock = (item, flag) => {
+    console.log(newStock);
+    products.map((object) => {
+      if (item.id === object.id) {
+        if (flag)
+          object.stock = parseInt(object.stock) + parseInt(newStock.stock);
+        else {
+          object.stock > 0
+            ? (object.stock = parseInt(object.stock) - parseInt(newStock.stock))
+            : (object.stock = 0);
+        }
+        setProduct([...products]);
+        setNewStock({ id: null, stock: 1 });
+      }
 
-  const filtered = products.filter((item)=>{
-      return Object.keys(item).some((key)=>
+      return object;
+    });
+  };
+
+  useEffect(() => {
+    console.log("degisiklik oldu");
+    if (newStock.stock.length < 1) {
+      setNewStock({ id: null, stock: 1 });
+    }
+
+    console.log(newStock);
+  }, [newStock.stock]);
+
+  const filtered = products.filter((item) => {
+    return Object.keys(item).some((key) =>
       item[key].toString().toLowerCase().includes(filterText.toLowerCase())
-      )
-  })
-  console.log("filtered ", filtered)
-  console.log('indexle',filtered[0])
+    );
+  });
+
+  const onChangeInput = (thisStock, id) => {
+    console.log(thisStock.length);
+    console.log(id);
+
+    setNewStock({
+      id: id,
+      stock: thisStock,
+    });
+  };
+
   return (
     <div>
-        <input placeholder='Filter Product' value={filterText} onChange={(e)=> setFilterText(e.target.value)} />
-        <ul className='list'>
-            {filtered.map((product, i)=>(
-                <li key={i}> 
-                <span>{product.productName} ({product.stock}) </span> 
-                <div className='btn'> <input  value={stock}  onChange={(e)=>setNewStock(e.target.value)} style={{width:50}} /> 
-                <button onClick={changeStock(i,true)}  >Ekle</button> <button onClick={changeStock(i,false)}>Cikar</button> </div>
-                
-                </li>
-                
-                ))}
-        </ul>
-        <p>Total products ({filtered.length})</p>
-        
-
+      <input
+        placeholder="Filter Product"
+        value={filterText}
+        onChange={(e) => setFilterText(e.target.value)}
+      />
+      <ul className="list">
+        {filtered.map((product, i) => (
+          <li key={i}>
+            <span>
+              {product.productName} ({product.stock}){" "}
+            </span>
+            <div key={i} className="btn">
+              {" "}
+              <input
+                type={"number"}
+                value={newStock.id === i ? newStock.stock : 1}
+                onChange={(e) => {
+                  onChangeInput(e.target.value, i);
+                }}
+                style={{ width: 60 }}
+              />
+              <button
+                type={"button"}
+                onClick={() => {
+                  changeStock(product, true);
+                }}
+              >
+                Ekle
+              </button>
+              <button
+                type={"button"}
+                onClick={() => {
+                  changeStock(product, false);
+                }}
+              >
+                Cikar
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p>Toplam Urun: ({filtered.length})</p>
     </div>
-  )
+  );
 }
 
-export default List
+export default List;
