@@ -5,14 +5,25 @@ function List({ products, setProduct }) {
   const [newStock, setNewStock] = useState({ id: 0, stock: 1 });
 
   const changeStock = (item, flag) => {
-    console.log(newStock);
     products.map((object) => {
       if (item.id === object.id) {
-        if (flag)
-          object.stock = parseInt(object.stock) + parseInt(newStock.stock);
-        else {
+        if (flag) {
+          object.stock =
+            parseInt(object.stock) +
+            parseInt(
+              item.id !== newStock.id || newStock.stock.length < 1
+                ? 1
+                : newStock.stock
+            );
+        } else {
           object.stock > 0
-            ? (object.stock = parseInt(object.stock) - parseInt(newStock.stock))
+            ? (object.stock =
+                parseInt(object.stock) -
+                parseInt(
+                  item.id !== newStock.id || newStock.stock.length < 1
+                    ? 1
+                    : newStock.stock
+                ))
             : (object.stock = 0);
         }
         setProduct([...products]);
@@ -23,15 +34,6 @@ function List({ products, setProduct }) {
     });
   };
 
-  useEffect(() => {
-    console.log("degisiklik oldu");
-    if (newStock.stock.length < 1) {
-      setNewStock({ id: null, stock: 1 });
-    }
-
-    console.log(newStock);
-  }, [newStock.stock]);
-
   const filtered = products.filter((item) => {
     return Object.keys(item).some((key) =>
       item[key].toString().toLowerCase().includes(filterText.toLowerCase())
@@ -39,7 +41,7 @@ function List({ products, setProduct }) {
   });
 
   const onChangeInput = (thisStock, id) => {
-    console.log(thisStock.length);
+    console.log(thisStock);
     console.log(id);
 
     setNewStock({
