@@ -1,3 +1,8 @@
+![First page](./pictures/firstPage.png)
+![Search product](./pictures/search.png)
+![Add product](./pictures/add-product.png)
+![Remove product](./pictures/remove.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
