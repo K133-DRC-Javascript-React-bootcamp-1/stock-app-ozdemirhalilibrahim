@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function List({ products, setProduct }) {
   const [filterText, setFilterText] = useState("");
@@ -49,7 +49,11 @@ function List({ products, setProduct }) {
       stock: thisStock,
     });
   };
-
+  const removeProduct = (id) => {
+    products = products.filter((item) => item.id !== id);
+    setProduct([...products]);
+    console.log(products.filter((item) => item.id !== id));
+  };
   return (
     <div>
       <input
@@ -67,9 +71,9 @@ function List({ products, setProduct }) {
               {" "}
               <input
                 type={"number"}
-                value={newStock.id === i ? newStock.stock : 1}
+                value={newStock.id === product.id ? newStock.stock : 1}
                 onChange={(e) => {
-                  onChangeInput(e.target.value, i);
+                  onChangeInput(e.target.value, product.id);
                 }}
                 style={{ width: 60 }}
               />
@@ -88,6 +92,14 @@ function List({ products, setProduct }) {
                 }}
               >
                 Cikar
+              </button>
+              <button
+                type={"button"}
+                onClick={() => {
+                  removeProduct(product.id);
+                }}
+              >
+                Sil
               </button>
             </div>
           </li>
