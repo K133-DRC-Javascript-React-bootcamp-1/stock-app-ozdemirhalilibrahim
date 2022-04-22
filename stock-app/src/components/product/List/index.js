@@ -53,7 +53,7 @@ function List({ products, setProduct }) {
   return (
     <div>
       <input
-        placeholder="Filter Product"
+        placeholder="Ürün ara..."
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
       />
